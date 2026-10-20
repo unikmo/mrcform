@@ -1,0 +1,89 @@
+{
+  "fixture_notice": "TESTDATEN — NICHT EINREICHEN. All names, addresses and values below are invented for software testing.",
+  "form": {
+    "id": "NRW-WOHNGELD-MIET",
+    "official_title": "Wohngeldantrag für den Mietzuschuss",
+    "official_source": "https://www.mhkbd.nrw/system/files/media/document/file/mietzuschuss-nach-dem-wohngeldgesetz-bund-bf-v2.3.pdf",
+    "source_owner": "Ministerium für Heimat, Kommunales, Bau und Digitalisierung des Landes Nordrhein-Westfalen",
+    "legal_level": "federal",
+    "form_level": "state",
+    "processing_level": "municipal",
+    "form_version": "source filename v2.3; verify printed form revision before each test run"
+  },
+  "cases": [
+    {
+      "id": "WG-F01",
+      "label": "Simple employed single-person household",
+      "mode": "Erstantrag",
+      "applicant": {
+        "surname": "Musterfrau",
+        "given_names": "Erika",
+        "birth_name": "Beispiel",
+        "date_of_birth": "1988-04-12",
+        "place_of_birth": "Beispielstadt",
+        "nationality": "deutsch",
+        "marital_status": "ledig",
+        "employment_status": "Arbeitnehmerin",
+        "address": {
+          "street": "Testallee",
+          "house_number": "99",
+          "postal_code": "00000",
+          "city": "TESTORT — UNGÜLTIGE TESTPLZ"
+        },
+        "phone": "",
+        "email": "erika.musterfrau@example.invalid"
+      },
+      "household": [
+        {"relationship": "Antragstellerin", "age_band": "adult"}
+      ],
+      "tenancy": {
+        "monthly_cold_rent_eur": 650,
+        "monthly_operating_costs_eur": 120,
+        "monthly_heating_costs_eur": 90,
+        "lease_start": "2023-06-01"
+      },
+      "income": [
+        {"source": "employment", "gross_monthly_eur": 2850, "net_monthly_eur": 1980, "period": "2026-07..2026-09"}
+      ],
+      "expected_flags": [],
+      "expected_behaviour": "Map provided facts to form fields; never infer eligibility or invent missing fields."
+    },
+    {
+      "id": "WG-F02",
+      "label": "Missing evidence and conflicting address",
+      "mode": "Erstantrag",
+      "applicant": {
+        "surname": "Testperson",
+        "given_names": "Alex",
+        "date_of_birth": "1992-02-02",
+        "address": {"street": "Testweg", "house_number": "10", "postal_code": "00000", "city": "TESTORT — UNGÜLTIGE TESTPLZ"}
+      },
+      "household": [{"relationship": "Antragsteller", "age_band": "adult"}],
+      "tenancy": {"monthly_cold_rent_eur": 710, "monthly_operating_costs_eur": 100, "monthly_heating_costs_eur": null, "lease_start": "2024-01-01"},
+      "income": [{"source": "employment", "gross_monthly_eur": 0, "net_monthly_eur": 0, "period": "unknown"}],
+      "evidence": [
+        {"type": "lease", "address": "Testweg 10, 00000 TESTORT", "present": true},
+        {"type": "income_statement", "address": "Alte Teststraße 4, 00000 TESTORT", "present": true},
+        {"type": "heating_cost_proof", "present": false},
+        {"type": "income_proof", "present": false}
+      ],
+      "expected_flags": ["ADDRESS_CONFLICT", "MISSING_HEATING_COST_EVIDENCE", "MISSING_INCOME_EVIDENCE", "INCOME_PERIOD_UNKNOWN"],
+      "expected_behaviour": "Block final package until adviser resolves address conflict and records missing evidence; do not silently substitute values."
+    },
+    {
+      "id": "WG-F03",
+      "label": "Repeat application / increase request",
+      "mode": "Erhöhungsantrag",
+      "applicant": {
+        "surname": "Beispielmann",
+        "given_names": "Robin",
+        "date_of_birth": "1960-11-03",
+        "address": {"street": "Musterweg", "house_number": "7", "postal_code": "00000", "city": "TESTORT — UNGÜLTIGE TESTPLZ"}
+      },
+      "tenancy": {"monthly_cold_rent_eur": 790, "monthly_operating_costs_eur": 145, "monthly_heating_costs_eur": 105, "lease_start": "2019-10-01"},
+      "income": [{"source": "pension", "gross_monthly_eur": 1320, "net_monthly_eur": 1260, "period": "2026-07..2026-09"}],
+      "expected_flags": ["PRIOR_BENEFIT_NOTICE_REQUIRED_IF_APPLICABLE", "CHECK_CHANGE_EFFECTIVE_DATE"],
+      "expected_behaviour": "Confirm request type and effective date; require relevant prior notice when applicable; no eligibility prediction."
+    }
+  ]
+}

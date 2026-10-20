@@ -1,0 +1,75 @@
+{
+  "fixture_id": "MF-QA-WG-NRW-001",
+  "fixture_type": "synthetic_only",
+  "warning": "All data is invented. Not a real applicant or valid application.",
+  "jurisdiction": {
+    "state": "Nordrhein-Westfalen",
+    "municipality": "Musterstadt (fictional placeholder; replace with chosen pilot municipality before mapping)",
+    "authority": "Unconfirmed"
+  },
+  "applicant": {
+    "name": "Lena Beispiel",
+    "date_of_birth": "1988-04-12",
+    "household": [
+      {
+        "name": "Kind Beispiel",
+        "relationship": "child",
+        "date_of_birth": "2016-09-03"
+      }
+    ]
+  },
+  "housing": {
+    "route": "Mietzuschuss",
+    "cold_rent_eur_month": 690,
+    "service_charges_rental_agreement_eur_month": 150,
+    "service_charges_utility_statement_eur_month": 165,
+    "heating_cost_eur_month": 90,
+    "deliberate_conflict": "Service charges differ by 15 EUR/month; flag for human resolution."
+  },
+  "income": {
+    "net_wages_eur_month": 1780,
+    "maintenance_eur_month": 250,
+    "maintenance_proof": "missing",
+    "child_benefit_eur_month": 250,
+    "note": "Do not infer legal treatment or entitlement; verify current rules and form instructions."
+  },
+  "documents": [
+    {
+      "type": "rental_agreement",
+      "synthetic": true,
+      "status": "provided"
+    },
+    {
+      "type": "wage_slip_month_1",
+      "synthetic": true,
+      "status": "provided"
+    },
+    {
+      "type": "wage_slip_month_2",
+      "synthetic": true,
+      "status": "provided"
+    },
+    {
+      "type": "utility_statement",
+      "synthetic": true,
+      "status": "provided"
+    },
+    {
+      "type": "maintenance_proof",
+      "synthetic": true,
+      "status": "missing"
+    }
+  ],
+  "expected_findings": [
+    "Flag 15 EUR/month service-charge conflict.",
+    "Flag missing maintenance evidence.",
+    "Attach source provenance to extracted fields.",
+    "Do not claim eligibility or submission.",
+    "Do not mark ready to submit until material uncertainties are resolved."
+  ],
+  "sensitive_values": {
+    "iban": null,
+    "tax_id": null,
+    "insurance_number": null
+  }
+}

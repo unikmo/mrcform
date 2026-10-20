@@ -1,0 +1,74 @@
+{
+  "fixture_id": "MF-QA-KIZ-001",
+  "fixture_type": "synthetic_only",
+  "warning": "Invented data only; not a real claim. Never submit.",
+  "applicant": {
+    "name": "Mara Musterfrau",
+    "date_of_birth": "1992-05-14",
+    "partner_status": "single",
+    "fictional_children": [
+      {
+        "name": "Lina Musterkind",
+        "date_of_birth": "2018-02-09"
+      }
+    ]
+  },
+  "household": {
+    "rent_eur_month": 920,
+    "heating_and_service_charges_eur_month": 210
+  },
+  "income_last_six_months": {
+    "wage_eur_by_month": [
+      1750,
+      1750,
+      1750,
+      1750,
+      null,
+      1750
+    ],
+    "missing_month": "2026-08",
+    "maintenance_eur_month": 0
+  },
+  "documents": [
+    {
+      "type": "KiZ1",
+      "status": "not_filled"
+    },
+    {
+      "type": "KiZ1-AnA",
+      "status": "not_filled"
+    },
+    {
+      "type": "KiZ1-AnK_child_1",
+      "status": "not_filled"
+    },
+    {
+      "type": "wage_slips",
+      "months_provided": [
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-09",
+        "2026-10"
+      ],
+      "missing_months": [
+        "2026-08"
+      ]
+    },
+    {
+      "type": "rental_contract",
+      "status": "provided_synthetic"
+    },
+    {
+      "type": "maintenance_evidence",
+      "status": "not_applicable_pending_confirmation"
+    }
+  ],
+  "expected_findings": [
+    "Required main form and applicant/partner annex must be present.",
+    "One child annex is required for the one child in fixture.",
+    "Flag missing wage evidence for 2026-08.",
+    "Do not infer entitlement or choose conditional annexes without checking official instructions.",
+    "No real IBAN, Kindergeldnummer or tax identifier."
+  ]
+}
