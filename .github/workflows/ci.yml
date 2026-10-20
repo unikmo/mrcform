@@ -1,0 +1,19 @@
+name: Verify MrForm
+on:
+  push:
+    branches: [main, feat/mrform-approved-design]
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+      - run: node --check src/main.js
+      - run: node --test tests/routes.test.mjs
